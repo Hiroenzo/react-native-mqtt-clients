@@ -23,6 +23,7 @@ export type MqttOptions = {
   host?: string;
   port?: number;
   autoReconnect?: boolean;
+  path?: string;
 };
 
 /**
@@ -103,7 +104,7 @@ export class MqttOptionsBuilder {
     if (this._options.tls !== undefined && this._options.tls !== tls) {
       throw new Error('TLS is required by the chosen protocol.');
     }
-    if (this._options.protocol === Protocol.TCP && tls === true) {
+    if (this._options.protocol === Protocol.TCP && tls) {
       this._options.protocol = Protocol.TCP_TLS;
     }
     this._options.tls = tls;
@@ -170,6 +171,11 @@ export class MqttOptionsBuilder {
 
   public autoReconnect(autoReconnect: boolean): MqttOptionsBuilder {
     this._options.autoReconnect = autoReconnect;
+    return this;
+  }
+
+  public path(path: string): MqttOptionsBuilder {
+    this._options.path = path;
     return this;
   }
 
