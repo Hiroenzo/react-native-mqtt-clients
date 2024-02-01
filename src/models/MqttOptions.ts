@@ -22,6 +22,7 @@ export type MqttOptions = {
   reconnectPeriod?: number;
   host?: string;
   port?: number;
+  autoReconnect?: boolean;
 };
 
 /**
@@ -31,20 +32,22 @@ export class MqttOptionsBuilder {
   private _options: MqttOptions = {};
 
   public peek(field: string): any {
-    return (this._options as any)[field]
+    return (this._options as any)[field];
   }
   public uri(uri: string): MqttOptionsBuilder;
+  // eslint-disable-next-line no-dupe-class-members
   public uri(
     host: string,
     port: number,
     protocol: Protocol
   ): MqttOptionsBuilder;
+  // eslint-disable-next-line no-dupe-class-members
   public uri(
     hostOrUri: string,
     port?: number,
     protocol?: Protocol
   ): MqttOptionsBuilder {
-    if (port === undefined || hostOrUri.includes(":")) {
+    if (port === undefined || hostOrUri.includes(':')) {
       const uri = hostOrUri;
       const { host, port, protocol, tls } = parseBrokerUrl(uri);
       this._options.host = host;
@@ -133,7 +136,9 @@ export class MqttOptionsBuilder {
     return this;
   }
 
-  public android_certificateBase64(android_certificateBase64: String): MqttOptionsBuilder {
+  public android_certificateBase64(
+    android_certificateBase64: String
+  ): MqttOptionsBuilder {
     this._options.android_certificateBase64 = android_certificateBase64;
     return this;
   }
@@ -160,6 +165,11 @@ export class MqttOptionsBuilder {
 
   public reconnectPeriod(reconnectPeriod: number): MqttOptionsBuilder {
     this._options.reconnectPeriod = reconnectPeriod;
+    return this;
+  }
+
+  public autoReconnect(autoReconnect: boolean): MqttOptionsBuilder {
+    this._options.autoReconnect = autoReconnect;
     return this;
   }
 

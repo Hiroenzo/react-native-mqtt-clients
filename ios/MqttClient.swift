@@ -24,6 +24,7 @@ class MqttClient {
         self.client.willMessage = options.will?.toCocoaMqttMessage()
         self.client.keepAlive = options.keepaliveSec
         self.client.enableSSL = options.tls
+        self.client.autoReconnect = options.autoReconnect
 
         if options.tls {
             do {
