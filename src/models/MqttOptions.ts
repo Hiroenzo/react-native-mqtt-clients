@@ -11,10 +11,11 @@ export type MqttOptions = {
   connectTimeoutMs?: number;
   will?: Will;
   tls?: boolean;
-  ios_certKeyP12Base64?: String;
-  android_caBase64?: String;
-  android_certificateBase64?: String;
+  ios_certKeyP12Base64?: string;
+  android_caBase64?: string;
+  android_certificateBase64?: string;
   android_privateKeyBase64?: string;
+  keyStoreKey?: string;
   keyStorePassword?: string;
   cleanSession?: boolean;
   protocol?: Protocol;
@@ -116,7 +117,7 @@ export class MqttOptionsBuilder {
     return this;
   }
 
-  public android_caBase64(android_caBase64: String): MqttOptionsBuilder {
+  public android_caBase64(android_caBase64: string): MqttOptionsBuilder {
     this._options.android_caBase64 = android_caBase64;
     return this;
   }
@@ -138,7 +139,7 @@ export class MqttOptionsBuilder {
   }
 
   public android_certificateBase64(
-    android_certificateBase64: String
+    android_certificateBase64: string
   ): MqttOptionsBuilder {
     this._options.android_certificateBase64 = android_certificateBase64;
     return this;
