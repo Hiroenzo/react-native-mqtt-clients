@@ -23,8 +23,10 @@ data class MqttOptions(
   val cleanSession: Boolean,
   val connectionTimeoutMs: Int,
   val will: Will?,
+  val path: String?,
+  val autoReconnect: Boolean
 ) {
-  val brokerUri: String = "${protocol.urlPrefix()}$host:$port"
+  val brokerUri: String = "${protocol.urlPrefix()}$host:$port$path"
 
   constructor(optionsFromJs: ReadableMap) : this(
     optionsFromJs.getOr<String>("clientId", "quito-android-${UUID.randomUUID()}"),
@@ -39,10 +41,12 @@ data class MqttOptions(
     optionsFromJs.getOr<String?>("android_certificateBase64", null),
     optionsFromJs.getOr<String?>("keyStorePassword", null),
     optionsFromJs.getOr<Int>("keepaliveSec", 60),
-    optionsFromJs.getOr<Int>("protocolLevel", 4),
+    optionsFromJs.getOr<Int>("protocolVersion", 4),
     optionsFromJs.getOr<Boolean>("clean", true),
     optionsFromJs.getOr<Int>("connectionTimeoutMs", 30000),
-    optionsFromJs.getMap("will")?.let { Will(it) }
+    optionsFromJs.getMap("will")?.let { Will(it) },
+    optionsFromJs.getOr<String?>("path", ""),
+    optionsFromJs.getOr<Boolean>("autoReconnect", false)
   )
 
   fun toPahoMqttOptions(tlsHelpers: TlsHelpers): MqttConnectOptions = MqttConnectOptions().apply {
@@ -51,6 +55,7 @@ data class MqttOptions(
     isCleanSession = this@MqttOptions.cleanSession
     mqttVersion = this@MqttOptions.protocolVersion
     userName = this@MqttOptions.username
+    isAutomaticReconnect = this@MqttOptions.autoReconnect
     if (this@MqttOptions.password != null) {
       password = this@MqttOptions.password.toCharArray()
     }
@@ -58,12 +63,17 @@ data class MqttOptions(
       setWill(will.topic, will.payload, will.qos.ordinal, will.retain)
     }
     if (this@MqttOptions.tls) {
-      socketFactory = tlsHelpers.getSocketFactory(
-        this@MqttOptions.android_caBase64,
-        this@MqttOptions.keyStoreKey,
-        this@MqttOptions.android_certificateBase64,
-        this@MqttOptions.keyStorePassword
-      )
+      if (this@MqttOptions.android_caBase64 == null || this@MqttOptions.android_certificateBase64 == null) {
+        socketFactory = null
+        isHttpsHostnameVerificationEnabled = false
+      } else {
+        socketFactory = tlsHelpers.getSocketFactory(
+          this@MqttOptions.android_caBase64,
+          this@MqttOptions.keyStoreKey,
+          this@MqttOptions.android_certificateBase64,
+          this@MqttOptions.keyStorePassword
+        )
+      }
     }
   }
 }

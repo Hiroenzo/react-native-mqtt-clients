@@ -12,7 +12,7 @@ class MqttClient {
         self.eventEmitter = eventEmitter
         self.options = options
         if options.connProtocol == Protocol.WS || options.connProtocol == Protocol.WSS {
-            let socket = CocoaMQTTWebSocket()
+            let socket = CocoaMQTTWebSocket(uri: options.path)
             self.client = CocoaMQTT(clientID: options.clientId, host: options.host, port: options.port, socket: socket)
         } else {
             self.client = CocoaMQTT(clientID: options.clientId, host: options.host, port: options.port)
@@ -24,6 +24,8 @@ class MqttClient {
         self.client.willMessage = options.will?.toCocoaMqttMessage()
         self.client.keepAlive = options.keepaliveSec
         self.client.enableSSL = options.tls
+        self.client.autoReconnect = options.autoReconnect
+        self.client.delegate = self
 
         if options.tls {
             do {
@@ -239,3 +241,37 @@ class MqttClient {
         self.client.sslSettings = sslSettings
     }
 }
+
+extension MqttClient: CocoaMQTTDelegate {
+    func mqtt(_ mqtt: CocoaMQTT, didReceive trust: SecTrust, completionHandler: @escaping (Bool) -> Void) {
+        completionHandler(true)
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopics success: NSDictionary, failed: [String]) {
+    }
+
+    func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopics topics: [String]) {
+    }
+
+    func mqttDidPing(_ mqtt: CocoaMQTT) {
+    }
+
+    func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
+    }
+
+    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
+    }
+}
+

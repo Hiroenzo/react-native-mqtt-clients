@@ -1,6 +1,6 @@
 {
-  "name": "@arkyutao/react-native-mqtt",
-  "version": "0.1.1",
+  "name": "@hiroenzo/react-native-mqtt",
+  "version": "0.1.0",
   "description": "The Mqtt client for react native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -41,14 +41,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/return764/react-native-mqtt.git"
+    "url": "git+https://github.com/hiroenzo/react-native-mqtt.git"
   },
-  "author": "yutao <yutao_return@qq.com> (https://github.com/return764)",
+  "author": "Hiroenzo <kyriechung@outlook.com> (https://github.com/hiroenzo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/return764/react-native-mqtt/issues"
+    "url": "https://github.com/hiroenzo/react-native-mqtt/issues"
   },
-  "homepage": "https://github.com/return764/react-native-mqtt#readme",
+  "homepage": "https://github.com/hiroenzo/react-native-mqtt#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

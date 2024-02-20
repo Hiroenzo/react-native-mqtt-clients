@@ -12,6 +12,8 @@ struct MqttOptions {
   let cleanSession: Bool
   let connectionTimeout: TimeInterval
   let will: Will?
+  let autoReconnect: Bool
+  let path: String
 
   init(fromJsOptions optionsFromJs: NSDictionary) {
       self.clientId = Helpers.getOrDefault(dict: optionsFromJs, key: "clientId", defaultValue: "quito-ios-\(UUID().uuidString)")
@@ -31,6 +33,8 @@ struct MqttOptions {
     } else {
         self.will = nil
     }
+    self.autoReconnect = Helpers.getOrDefault(dict: optionsFromJs, key: "autoReconnect", defaultValue: true)
+    self.path = Helpers.getOrDefault(dict: optionsFromJs, key: "path", defaultValue: "/")
   }
 }
 
