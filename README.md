@@ -21,7 +21,7 @@ This libraries owes a lot to [davesters](https://github.com/davesters)' and [Sud
 ## Installation
 
 ```sh
-npm install @arkyutao/react-native-mqtt
+npm install react-native-mqtt-clients
 ```
 
 To make an unencrypted connection to an MQTT broker, make sure a consuming android application allows cleartext traffic, either generally by setting the _android:usesCleartextTraffic_ flag in the application field of the AndroidManifest.xml, or by adding a [security configuration](https://developer.android.com/training/articles/security-config).
@@ -33,7 +33,7 @@ The module provides promise- and callback-based methods to interact with the nat
 #### Callback-based usage
 
 ```typescript
-import { MqttClient, MqttOptionsBuilder } from '@arkyutao/react-native-mqtt';
+import { MqttClient, MqttOptionsBuilder } from 'react-native-mqtt-clients';
 
 // build a config using the MqttOptionsBuilder
 const config = new MqttOptionsBuilder()
