@@ -124,7 +124,7 @@ MqttClient.init() // call init() to create native client and set up native event
 #### Promise-based usage
 
 ```typescript
-import { MqttCliet, MqttOptionsBuilder } from 'react-native-mqtt';
+import { MqttCliet, MqttOptionsBuilder } from 'react-native-mqtt-clients';
 
 // build a config using the MqttOptionsBuilder
 const config = new MqttOptionsBuilder()
