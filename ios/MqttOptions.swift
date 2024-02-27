@@ -16,10 +16,10 @@ struct MqttOptions {
   let path: String
 
   init(fromJsOptions optionsFromJs: NSDictionary) {
-      self.clientId = Helpers.getOrDefault(dict: optionsFromJs, key: "clientId", defaultValue: "quito-ios-\(UUID().uuidString)")
-      self.host = Helpers.getOrDefault(dict: optionsFromJs, key: "host", defaultValue: "test.mosquitto.org")
-      self.port = Helpers.getOrDefault(dict: optionsFromJs, key: "port", defaultValue: 1883)
-      self.connProtocol = Protocol(rawValue: Helpers.getOrDefault(dict: optionsFromJs, key: "protocol", defaultValue: "TCP"))!
+    self.clientId = Helpers.getOrDefault(dict: optionsFromJs, key: "clientId", defaultValue: "quito-ios-\(UUID().uuidString)")
+    self.host = Helpers.getOrDefault(dict: optionsFromJs, key: "host", defaultValue: "test.mosquitto.org")
+    self.port = Helpers.getOrDefault(dict: optionsFromJs, key: "port", defaultValue: 1883)
+    self.connProtocol = Protocol(rawValue: Helpers.getOrDefault(dict: optionsFromJs, key: "protocol", defaultValue: "TCP"))!
     self.username = optionsFromJs["username"] as? String
     self.password = optionsFromJs["password"] as? String
     self.tls = Helpers.getOrDefault(dict: optionsFromJs, key: "tls", defaultValue: false)

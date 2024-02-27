@@ -5,15 +5,15 @@ enum Protocol: String {
   case TCP = "TCP"
 
   func urlPrefix() -> String {
-      switch self {
-        case .WS:
-          return "ws://"
-        case .WSS:
-          return "wss://"
-        case .TCP_TLS:
-          return "ssl://"
-        default:
-          return "tcp://"
-      }
+    switch self {
+      case .WS:
+        return "ws://"
+      case .WSS:
+        return "wss://"
+      case .TCP_TLS:
+        return "ssl://"
+      default:
+        return "tcp://"
     }
+  }
 }

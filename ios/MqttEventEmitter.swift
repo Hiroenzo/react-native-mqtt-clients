@@ -15,11 +15,15 @@ class MqttEventEmitter {
       MqttEventParam.ERR_MESSAGE.rawValue: e.localizedDescription,
       MqttEventParam.STACKTRACE.rawValue: ""
     ]
+    if Mqtt.hasListener {
       MqttEventEmitter.shard.sendEvent(withName: MqttEvent.EXCEPTION.rawValue, body: params)
+    }
   }
 
   func sendEvent(event: MqttEvent, params: NSMutableDictionary = [:]) {
+    if Mqtt.hasListener {
       params.setValue(self.clientRef, forKey: MqttEventParam.CLIENT_REF.rawValue)
       MqttEventEmitter.shard.sendEvent(withName: event.rawValue, body: params)
+    }
   }
 }

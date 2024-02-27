@@ -1,5 +1,5 @@
 import Foundation
 
 enum MqttError: Error {
-    case certificateError(String)
+  case certificateError(String)
 }
