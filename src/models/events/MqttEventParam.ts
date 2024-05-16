@@ -8,4 +8,5 @@ export enum MqttEventParam {
   PAYLOAD = 'PAYLOAD',
   QOS = 'QOS',
   RETAIN = 'RETAIN',
+  RECONNECT = 'RECONNECT',
 }
