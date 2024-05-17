@@ -33,9 +33,11 @@ class MqttEventEmitter(private val reactContext: ReactContext, private val clien
    * @param params The parameters to send with the event.
    */
   fun sendEvent(event: MqttEvent, params: WritableMap = Arguments.createMap()) {
-    params.putString(MqttEventParam.CLIENT_REF.name, clientRef)
-    reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-      .emit(event.name, params)
+    if (reactContext.hasActiveReactInstance()) {
+      params.putString(MqttEventParam.CLIENT_REF.name, clientRef)
+      reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+        .emit(event.name, params)
+    }
   }
 }

@@ -10,4 +10,5 @@ enum MqttEventParam: String {
   case PAYLOAD = "PAYLOAD"
   case QOS = "QOS"
   case RETAIN = "RETAIN"
+  case RECONNECT = "RECONNECT"
 }

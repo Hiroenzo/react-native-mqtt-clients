@@ -35,9 +35,21 @@ class MqttClient {
       }
     }
 
+    var disconnected = false
     self.client.didChangeState = { (_: CocoaMQTT, newState: CocoaMQTTConnState) in
       if newState == CocoaMQTTConnState.disconnected {
+        disconnected = true
         self.eventEmitter.sendEvent(event: MqttEvent.CONNECTION_LOST)
+      }
+      if newState == CocoaMQTTConnState.connected {
+        if (disconnected) {
+          disconnected = false
+          let server_uri = self.options.connProtocol.rawValue + "://" + self.options.host + ":" + String(self.options.port)
+          self.eventEmitter.sendEvent(event: MqttEvent.CONNECTION_COMPLETE, params: [
+            MqttEventParam.SERVER_URI.rawValue: server_uri,
+            MqttEventParam.RECONNECT.rawValue: true
+          ])
+        }
       }
     }
 

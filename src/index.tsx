@@ -23,7 +23,7 @@ export class MqttClient {
 
   constructor(options: MqttOptions) {
     this._options = options;
-    this._eventEmitter = MqttEventEmitter()
+    this._eventEmitter = MqttEventEmitter();
   }
 
   async init(): Promise<void> {
@@ -32,27 +32,42 @@ export class MqttClient {
   }
 
   public on(event: MqttEvent.CONNECTED, cb: () => void): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: MqttEvent.CONNECTING, cb: () => void): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(
     event: MqttEvent.CONNECTION_LOST,
     cb: (errorMsg?: string, errorCode?: number, stackTrace?: string) => void
   ): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: MqttEvent.SUBSCRIBED, cb: (topic: string) => void): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: MqttEvent.UNSUBSCRIBED, cb: (topic: string) => void): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(
     event: MqttEvent.MESSAGE_RECEIVED,
     cb: (topic: string, payload: Uint8Array) => void
   ): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(
     event: MqttEvent.MESSAGE_PUBLISHED,
     cb: (topic: string, payload: Uint8Array) => void
   ): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: MqttEvent.DISCONNECTED, cb: () => void): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(
     event: MqttEvent.EXCEPTION,
     cb: (errorMsg?: string, errorCode?: number, stackTrace?: string) => void
   ): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: MqttEvent.CLOSED, cb: () => void): this;
+  // eslint-disable-next-line no-dupe-class-members
+  public on(
+    event: MqttEvent.CONNECTION_COMPLETE,
+    cb: (serverURI: string, reconnect: boolean) => void
+  ): this;
+  // eslint-disable-next-line no-dupe-class-members
   public on(event: string, cb: Function): this {
     this._eventHandler[event] = cb;
     return this;
@@ -97,12 +112,7 @@ export class MqttClient {
     payload: Uint8Array,
     options: PublishOptions = {}
   ): void {
-    MqttNative.publish(
-      topic,
-      fromByteArray(payload),
-      options,
-      this._clientRef
-    );
+    MqttNative.publish(topic, fromByteArray(payload), options, this._clientRef);
   }
 
   async publishAsync(
@@ -110,12 +120,7 @@ export class MqttClient {
     payload: Uint8Array,
     options: PublishOptions = {}
   ): Promise<void> {
-    MqttNative.publish(
-      topic,
-      fromByteArray(payload),
-      options,
-      this._clientRef
-    );
+    MqttNative.publish(topic, fromByteArray(payload), options, this._clientRef);
   }
 
   reconnect(): void {
@@ -150,6 +155,7 @@ export class MqttClient {
     this._eventEmitter.removeAllListeners(MqttEvent.EXCEPTION);
     this._eventEmitter.removeAllListeners(MqttEvent.MESSAGE_RECEIVED);
     this._eventEmitter.removeAllListeners(MqttEvent.RECONNECT);
+    this._eventEmitter.removeAllListeners(MqttEvent.CONNECTION_COMPLETE);
     this._eventEmitter.removeAllListeners(MqttEvent.SUBSCRIBED);
     this._eventEmitter.removeAllListeners(MqttEvent.UNSUBSCRIBED);
   }
@@ -182,6 +188,11 @@ export class MqttClient {
       MqttEvent.MESSAGE_PUBLISHED,
       MqttEventParam.TOPIC,
       MqttEventParam.PAYLOAD
+    );
+    this._addEventListener(
+      MqttEvent.CONNECTION_COMPLETE,
+      MqttEventParam.SERVER_URI,
+      MqttEventParam.RECONNECT
     );
   }
 

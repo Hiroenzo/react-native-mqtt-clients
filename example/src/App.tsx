@@ -2,7 +2,13 @@ import * as React from 'react';
 
 import { Button, SafeAreaView, Text, TextInput } from 'react-native';
 import { Buffer } from 'buffer';
-import { MqttClient, MqttOptions, MqttOptionsBuilder, MqttEvent, Protocol } from 'react-native-mqtt';
+import {
+  MqttClient,
+  MqttOptions,
+  MqttOptionsBuilder,
+  MqttEvent,
+  Protocol,
+} from 'react-native-mqtt';
 
 export default function App() {
   const [mqttClient, setMqttClient] = React.useState<MqttClient>();
@@ -22,12 +28,12 @@ export default function App() {
     protocol: Protocol.TCP,
     clientId: 'quito-example',
     keepaliveSec: 60,
-    connectTimeoutMs: 60000,
+    connectionTimeout: 60000,
     will: {
-      topic: "goodbye",
-      payload: "so long",
+      topic: 'goodbye',
+      payload: 'so long',
       qos: 0,
-      retain: false
+      retain: false,
     },
     username: 'username',
     password: 'password',
@@ -64,7 +70,7 @@ export default function App() {
           .catch((e) => setLog(e.message));
       })
       .catch((e) => setLog(e.message));
-  }, [options]);
+  }, [mqttClient, options]);
 
   return (
     <SafeAreaView style={{ padding: 20 }}>
@@ -91,7 +97,7 @@ export default function App() {
         style={{ padding: 10 }}
       />
       <Button
-        testID='sendButton'
+        testID="sendButton"
         title={'send'}
         onPress={() => {
           mqttClient?.publishAsync(
@@ -101,7 +107,7 @@ export default function App() {
         }}
       />
       <TextInput
-        testID='subscribeInput'
+        testID="subscribeInput"
         multiline
         placeholder="topic to subscribe to"
         numberOfLines={1}
@@ -110,7 +116,7 @@ export default function App() {
         style={{ padding: 10 }}
       />
       <Button
-        testID='subscribeButton'
+        testID="subscribeButton"
         title={'subscribe to'}
         onPress={() => {
           mqttClient
@@ -119,7 +125,7 @@ export default function App() {
         }}
       />
       <TextInput
-        testID='unsubscribeInput'
+        testID="unsubscribeInput"
         multiline
         placeholder="topic to unsubscribe from"
         numberOfLines={1}
@@ -128,7 +134,7 @@ export default function App() {
         style={{ padding: 10 }}
       />
       <Button
-        testID='unsubscribeButton'
+        testID="unsubscribeButton"
         title={'unsubscribe from'}
         onPress={() => {
           mqttClient
@@ -137,13 +143,13 @@ export default function App() {
         }}
       />
       <TextInput
-        testID='brokerUriInput'
+        testID="brokerUriInput"
         onChangeText={(text) => setBrokerUri(text)}
         value={brokerUri}
         style={{ padding: 10 }}
       />
       <Button
-        testID='configUpdateButton'
+        testID="configUpdateButton"
         title={'update quito config'}
         onPress={() =>
           setOptions(new MqttOptionsBuilder().uri(brokerUri).build())
@@ -152,4 +158,3 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
