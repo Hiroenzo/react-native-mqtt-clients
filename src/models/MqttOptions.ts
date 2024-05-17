@@ -8,7 +8,7 @@ export type MqttOptions = {
   username?: string;
   password?: string;
   keepaliveSec?: number;
-  connectTimeoutMs?: number;
+  connectionTimeout?: number;
   will?: Will;
   tls?: boolean;
   ios_certKeyP12Base64?: string;
@@ -50,11 +50,15 @@ export class MqttOptionsBuilder {
     protocol?: Protocol
   ): MqttOptionsBuilder {
     if (port === undefined || hostOrUri.includes(':')) {
-      const uri = hostOrUri;
-      const { host, port, protocol, tls } = parseBrokerUrl(uri);
+      const {
+        host,
+        port: _port,
+        protocol: _protocol,
+        tls,
+      } = parseBrokerUrl(hostOrUri);
       this._options.host = host;
-      this._options.port = port;
-      this._options.protocol = protocol;
+      this._options.port = _port;
+      this._options.protocol = _protocol;
       this._options.tls = tls;
     } else {
       if (protocol === undefined) {
@@ -91,8 +95,8 @@ export class MqttOptionsBuilder {
     return this;
   }
 
-  public connectTimeoutMs(connectTimeoutMs: number): MqttOptionsBuilder {
-    this._options.connectTimeoutMs = connectTimeoutMs;
+  public connectionTimeout(connectionTimeout: number): MqttOptionsBuilder {
+    this._options.connectionTimeout = connectionTimeout;
     return this;
   }
 

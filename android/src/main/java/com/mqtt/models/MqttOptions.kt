@@ -21,7 +21,7 @@ data class MqttOptions(
   val keepaliveSec: Int,
   val protocolVersion: Int,
   val cleanSession: Boolean,
-  val connectTimeoutMs: Int,
+  val connectionTimeout: Int,
   val will: Will?,
   val path: String?,
   val autoReconnect: Boolean
@@ -43,7 +43,7 @@ data class MqttOptions(
     optionsFromJs.getOr<Int>("keepaliveSec", 60),
     optionsFromJs.getOr<Int>("protocolVersion", 4),
     optionsFromJs.getOr<Boolean>("clean", true),
-    optionsFromJs.getOr<Int>("connectTimeoutMs", 30),
+    optionsFromJs.getOr<Int>("connectionTimeout", 30),
     optionsFromJs.getMap("will")?.let { Will(it) },
     optionsFromJs.getOr<String?>("path", ""),
     optionsFromJs.getOr<Boolean>("autoReconnect", false)
@@ -51,7 +51,7 @@ data class MqttOptions(
 
   fun toPahoMqttOptions(tlsHelpers: TlsHelpers): MqttConnectOptions = MqttConnectOptions().apply {
     keepAliveInterval = this@MqttOptions.keepaliveSec
-    connectionTimeout = this@MqttOptions.connectTimeoutMs
+    connectionTimeout = this@MqttOptions.connectionTimeout
     isCleanSession = this@MqttOptions.cleanSession
     mqttVersion = this@MqttOptions.protocolVersion
     userName = this@MqttOptions.username
