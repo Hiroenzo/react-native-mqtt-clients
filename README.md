@@ -82,6 +82,9 @@ MqttClient.init() // call init() to create native client and set up native event
     MqttClient.on(MqttEvent.CLOSED, (error?: Error) => {
       // called when client was closed
     });
+    MqttClient.on(MqttEvent.CONNECTION_COMPLETE, (serverURI: string, reconnect: boolean) => {
+      // called when client was connected or reconnected
+    });
 
     // connecting to the MQTT broker
     MqttClient.connect();
@@ -214,7 +217,7 @@ Use the MqttOptionsBuilder to generate a config for the MQTT client. The followi
 - `username`: _string_ - Username used to authenticate the client against the broker
 - `password`: _string_ - Password used to authenticate the client against the broker
 - `keepaliveSec`: _number_ - Maximum time interval in seconds between control packets
-- `connectTimeoutMs`: _number_ - Maximum time interval the client will wait for the network connection to the MQTT broker to be established
+- `connectionTimeout`: _number_ - Maximum time interval the client will wait for the network connection to the MQTT broker to be established
 - `will`: _Will_ - MQTT message that the broker will send, should the client connect ungracefully.
     - `topic`: _string_ - Topic the will will be published to
     - `payload`: _string_ - Message of the will Base64-encoded
