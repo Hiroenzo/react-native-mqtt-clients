@@ -5,7 +5,7 @@
 
 - (dispatch_queue_t)methodQueue
 {
-    return dispatch_queue_create("react-native-mqtt", DISPATCH_QUEUE_SERIAL);
+    return dispatch_queue_create("react-native-mqtt-clients", DISPATCH_QUEUE_SERIAL);
 }
 
 + (BOOL)requiresMainQueueSetup
@@ -55,7 +55,5 @@ RCT_EXTERN_METHOD(end:(NSString *)clientRef
 RCT_EXTERN_METHOD(isConnected:(NSString *)clientRef
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
-
-RCT_EXTERN_METHOD(reconnect:(NSString *)clientRef)
 
 @end

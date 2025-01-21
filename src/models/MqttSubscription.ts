@@ -1,4 +1,4 @@
-import type { QoS } from "./QoS";
+import type { QoS } from './QoS';
 
 export type MqttSubscription = {
   topic: string;

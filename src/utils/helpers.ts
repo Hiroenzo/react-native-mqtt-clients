@@ -12,13 +12,13 @@ export const parseBrokerUrl = (url: string): UrlData => {
     /^((mqtt[s]?|ws[s]?|tcp?|ssl?)?:(\/\/)([0-9a-zA-Z_\/\.\-]*):?(\d+))$/
   );
 
-  if (!destructured || destructured.length != 6) {
+  if (!destructured || destructured.length !== 6) {
     throw new Error(`Invalid broker url: ${url}`);
   }
 
-  const [ , , protocolStr, , host, portStr] = destructured;
+  const [, , protocolStr, , host, portStr] = destructured;
 
-  const port = parseInt(portStr!!);
+  const port = parseInt(portStr!!, 10);
   const protocol = parseProtocolString(protocolStr!!);
 
   const tls =
