@@ -1,10 +1,13 @@
+import { toByteArray, fromByteArray } from 'base64-js';
+
+import MqttNative, { MqttEventEmitter } from './module';
+
+import { MqttEvent } from './models/events/MqttEvent';
+import { MqttEventParam } from './models/events/MqttEventParam';
+
 import type { MqttOptions } from './models/MqttOptions';
 import type { MqttSubscription } from './models/MqttSubscription';
 import type { PublishOptions } from './models/PublishOptions';
-import { MqttEvent } from './models/events/MqttEvent';
-import { MqttEventParam } from './models/events/MqttEventParam';
-import { toByteArray, fromByteArray } from 'base64-js';
-import { MqttNative, MqttEventEmitter } from './models/NativeMqtt';
 
 export * from './models/events/MqttEvent';
 export * from './models/Protocol';
@@ -16,7 +19,7 @@ export * from './models/MqttOptions';
  * @param options configuration options for the client
  */
 export class MqttClient {
-  private _options: MqttOptions;
+  private readonly _options: MqttOptions;
   private _clientRef?: string;
   private _eventHandler: any = {};
   private _eventEmitter;
@@ -131,12 +134,12 @@ export class MqttClient {
     return await MqttNative.isConnected(this._clientRef);
   }
 
-  end(force: Boolean = false): void {
+  end(force: boolean = false): void {
     MqttNative.end(this._clientRef, force);
     this._removeEventListeners();
   }
 
-  async endAsync(force: Boolean = false): Promise<void> {
+  async endAsync(force: boolean = false): Promise<void> {
     await MqttNative.end(this._clientRef, force);
     this._removeEventListeners();
   }

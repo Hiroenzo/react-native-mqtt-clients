@@ -37,7 +37,10 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "mqtt",
+    "CocoaMQTT",
+    "Paho"
   ],
   "repository": {
     "type": "git",
@@ -165,5 +168,10 @@
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "RNMqttClientsSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
   }
 }
